@@ -2,7 +2,6 @@ module "network" {
     source               = "./modules/network"
     vpc_cidr             = "${var.vpc_cidr}"
     vpc_az1              = "${var.vpc_az1}"
-    vpc_az2              = "${var.vpc_az2}"
     vpc_sn_pub_az1_cidr  = "${var.vpc_sn_pub_az1_cidr}"
     vpc_sn_priv_az1_cidr = "${var.vpc_sn_priv_az1_cidr}"
 }
