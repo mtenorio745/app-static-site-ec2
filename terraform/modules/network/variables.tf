@@ -1,63 +1,76 @@
-# NETWORK VARS DEFAULT VALUES
+# NETWORK VARS CUSTOM VALUES
 
 variable "vpc_cidr" {
-    type    = string
-    default = "20.0.0.0/16"
+    description = "CIDR block for the VPC"
+    type        = string
+    default     = "10.0.0.0/16"
 }
 
 variable "vpc_az1" {
-    type    = string
-    default = "us-east-1a"
-}
-
-variable "vpc_cidr_all" {
-    type    = string
-    default = "0.0.0.0/0"
-}
-
-variable "vpc_dns_hostnames" {
-    type    = bool
-    default = true
+    description = "Availability Zone for subnet 1"
+    type        = string
+    default     = "us-east-1a"
 }
 
 variable "vpc_sn_pub_az1_cidr" {
-    type    = string
-    default = "20.0.1.0/24"
+    description = "CIDR block for the public subnet in availability zone 1"
+    type        = string
+    default     = "10.0.1.0/24"
 }
 
-variable "vpc_sn_pub_map_public_ip_on_launch" {
-    type    = bool
-    default = true
-}
-
+# Optional: You could include this if you have private subnets as well
 variable "vpc_sn_priv_az1_cidr" {
-    type    = string
-    default = "20.0.3.0/24"
+    description = "CIDR block for the private subnet in availability zone 1"
+    type        = string
+    default     = "10.0.3.0/24"
 }
 
-# SECURITY GROUP VARS DEFAULT VALUES
+# SECURITY GROUPS
 
-variable "vpc_sg_port_all" {
-    type    = number
-    default = 0
+variable "egress_rules" {
+  description = "List of egress rules"
+  type = list(object({
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_blocks = list(string)
+  }))
+  default = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
 }
 
-variable "vpc_sg_port_ssh" {
-    type    = number
-    default = 22
-}
-
-variable "vpc_sg_port_http" {
-    type    = number
-    default = 80
-}
-
-variable "vpc_sg_protocol_any" {
-    type    = string
-    default = "-1"
-}
-
-variable "vpc_sg_protocol_tcp" {
-    type    = string
-    default = "tcp"
+variable "ingress_rules" {
+  description = "List of ingress rules"
+  type = list(object({
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_blocks = list(string)
+  }))
+  default = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["10.0.0.0/16"]
+    },
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      from_port   = 80
+      to_port     = 80
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
 }
