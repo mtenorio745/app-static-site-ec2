@@ -23,8 +23,4 @@ module "compute" {
     vpc_id                   = "${module.network.vpc_id}"
     vpc_sn_pub_az1_id        = "${module.network.vpc_sn_pub_az1_id}"
     vpc_sg_pub_id            = "${module.network.vpc_sg_pub_id}"
-    rds_endpoint             = "${module.database.rds_endpoint}"
-    rds_dbuser               = "${var.rds_dbuser}"
-    rds_dbpassword           = "${var.rds_dbpassword}"
-    rds_dbname               = "${var.rds_dbname}"
 }
